@@ -1,0 +1,23 @@
+name: Pizza App CI Assembly Line
+
+# 1. Trigger: Run this pipeline every time someone pushes code to the 'main' branch
+on:
+  push:
+    branches: [ "main" ]
+
+# 2. Jobs: The sequence of tasks the automation robot will perform
+jobs:
+  build-and-test:
+    # Tell GitHub to run this on a fresh, cloud-hosted Ubuntu Linux machine
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out (download) your pizza repository code onto the cloud runner
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Step 2: Test building the Docker image to make sure the developer didn't break anything
+    - name: Build Docker Image Test
+      run: |
+        docker build -t pizza-site:latest .
+        echo "🎉 Success! The pizza website docker image compiled flawlessly."
